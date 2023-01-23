@@ -6,6 +6,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('login')
   login() {
+    console.log(process.env.ENVCONFIG_TEST, '测试配置文件');
     return this.authService.login();
   }
 }
