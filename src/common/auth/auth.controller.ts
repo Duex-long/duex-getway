@@ -1,12 +1,14 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UsePipes } from '@nestjs/common';
+import { User } from '../db/mysql/entity/user.mysql.entity';
 import { AuthService } from './auth.service';
+import { AuthInfoPipe } from './util/auth.pipe';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('login')
-  login() {
-    console.log(process.env.ENVCONFIG_TEST, '测试配置文件');
-    return this.authService.login();
+  @UsePipes(new AuthInfoPipe())
+  async login(@Body() userInfo: User) {
+    return await this.authService.login(userInfo);
   }
 }

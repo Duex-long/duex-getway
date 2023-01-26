@@ -24,7 +24,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
   }
   catch(exception: unknown, host: ArgumentsHost) {
-    console.log('catch', exception);
+    // console.log('catch', exception);
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<FastifyRequest>();
     const response = ctx.getResponse<FastifyReply>();

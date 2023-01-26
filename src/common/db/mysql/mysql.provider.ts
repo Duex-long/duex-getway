@@ -15,7 +15,6 @@ const initDb = async () => {
     entities: [Path.join(__dirname, `./entity/*.mysql.entity{.ts,.js}`)],
     synchronize: true,
   };
-  console.log(MYSQL_OPTIONS, '配置文件');
   const DATABASE_INSTANCE = new DataSource(MYSQL_OPTIONS);
   await DATABASE_INSTANCE.initialize();
   return DATABASE_INSTANCE;

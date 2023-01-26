@@ -1,6 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  HttpException,
+  HttpStatus,
   Injectable,
   NotAcceptableException,
 } from '@nestjs/common';
@@ -9,7 +11,7 @@ import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private whiteList = ['', 'auth'];
+  private whiteList = ['auth'];
 
   canActivate(
     context: ExecutionContext,
@@ -24,7 +26,7 @@ export class AuthGuard implements CanActivate {
     const token = request.headers.token;
     const tokenAble = this.validateJWT(token);
     if (!tokenAble) {
-      throw new NotAcceptableException('Not Login');
+      throw new HttpException('Not Login', HttpStatus.OK);
     }
     // if(this.whiteList.includes())
     return true;

@@ -13,8 +13,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  app.useGlobalInterceptors(new TransformIntercetp());
   app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TransformIntercetp());
   app.useGlobalGuards(new AuthGuard());
   await app.listen(3000);
 }
