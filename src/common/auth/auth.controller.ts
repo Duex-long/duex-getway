@@ -11,4 +11,10 @@ export class AuthController {
   async login(@Body() userInfo: User) {
     return await this.authService.login(userInfo);
   }
+  @Post('register')
+  @UsePipes(new AuthInfoPipe())
+  async register(@Body() userInfo: User) {
+    await this.authService.register(userInfo);
+    return 'success';
+  }
 }

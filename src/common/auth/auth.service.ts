@@ -2,14 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RedisClientType } from 'redis';
 import { Repository } from 'typeorm';
-import { Test } from '../db/mysql/entity/test.mysql.entity';
 import { User } from '../db/mysql/entity/user.mysql.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('MYSQL_TEST_PROVIDER')
-    private testDB: Repository<Test>,
     @Inject('MYSQL_TEST_PROVIDER')
     private userDB: Repository<User>,
     @Inject('REDIS_PROVIDER')
@@ -18,12 +15,6 @@ export class AuthService {
   ) {}
 
   async login(userInfo: User) {
-    // this.userDB.save({
-    //   username: 'admin',
-    //   password: '123456',
-    //   tel: '19999999999',
-    //   email: 'xxx@email.com',
-    // });
     /**验证信息合法  pipe*/
 
     /**是否存在 */
@@ -55,6 +46,13 @@ export class AuthService {
       userId: findOne.id,
       username: findOne.username,
     });
+  }
+  async register(userInfo: User) {
+    console.log(userInfo, 'register');
+    await this.userDB.save({
+      ...userInfo,
+    });
+    return 'success';
   }
   async refresh(key: string) {
     try {

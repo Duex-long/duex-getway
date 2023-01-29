@@ -6,7 +6,6 @@ import { userMysqlEntityProvider } from '../db/mysql/entity/user.mysql.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
-console.log('token secretkey dev');
 @Module({
   imports: [
     DbModule,

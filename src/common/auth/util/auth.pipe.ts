@@ -16,9 +16,11 @@ export class AuthInfoPipe implements PipeTransform {
     // throw new Error('Method not implemented.');
     const { username, password, tel, email } = value;
     if (!username || !password) {
+      console.log('pipi Error');
       throw new HttpException('请确认用户信息完整', HttpStatus.BAD_REQUEST);
     }
     if (tel && !this.checkIsPhone(tel)) {
+      console.log('pipi Error');
       throw new HttpException('请填写正确的手机号码', HttpStatus.BAD_REQUEST);
     }
     return {

@@ -4,10 +4,10 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  NotAcceptableException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { FastifyRequest } from 'fastify';
+import { createClient } from 'redis';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -32,6 +32,12 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  private async clientRedis() {
+    const client = await createClient({ url: 'redis://localhost:6379' });
+    await client.connect();
+    return client;
+  }
+
   private inCludeWhiteList(url: string, whiteList: string[]) {
     const pathSplit = url.split('/');
     pathSplit.shift();
@@ -39,9 +45,13 @@ export class AuthGuard implements CanActivate {
     return result;
   }
 
-  private validateJWT(token: string | string[]) {
-    if (!token || !token.length) return false;
+  private async validateJWT(token: string | string[]) {
+    if (typeof token !== 'string') return false;
+    const clientRedis = await this.clientRedis();
+    const user = await clientRedis.get(token);
+    clientRedis.disconnect();
+    if (user) return true;
     // token验证
-    return true;
+    return fail;
   }
 }

@@ -21,11 +21,14 @@ export class User {
   @Column()
   tel?: string;
 
-  @Column()
+  @Column({ default: '' })
   email?: string;
 
-  @Column()
+  @Column({ default: '' })
   prevLoginTime?: string;
+
+  @Column({ default: '0' })
+  premission?: string;
 
   @CreateDateColumn()
   createDate?: string;
