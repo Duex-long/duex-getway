@@ -16,7 +16,6 @@ export class AuthService {
 
   async login(userInfo: User) {
     /**验证信息合法  pipe*/
-
     /**是否存在 */
     const findOne = await this.userDB.findOne({
       where: {
@@ -48,12 +47,12 @@ export class AuthService {
     });
   }
   async register(userInfo: User) {
-    console.log(userInfo, 'register');
     await this.userDB.save({
       ...userInfo,
     });
     return 'success';
   }
+
   async refresh(key: string) {
     try {
       const userId = await this.redisClient.get(key);

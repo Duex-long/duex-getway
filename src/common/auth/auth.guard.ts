@@ -11,7 +11,7 @@ import { createClient } from 'redis';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private whiteList = ['auth'];
+  private whiteList = ['auth', 'example'];
 
   canActivate(
     context: ExecutionContext,
@@ -52,6 +52,6 @@ export class AuthGuard implements CanActivate {
     clientRedis.disconnect();
     if (user) return true;
     // token验证
-    return fail;
+    return false;
   }
 }
