@@ -7,6 +7,7 @@ import { AppModule } from './app.module';
 import { AuthGuard } from './common/auth/auth.guard';
 import { AllExceptionsFilter } from './common/exceptions/base.exceptions';
 import TransformIntercetp from './common/intercept/transform.intercetp';
+import { logger } from './common/log/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -16,6 +17,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(new TransformIntercetp());
   app.useGlobalGuards(new AuthGuard());
-  await app.listen(3000);
+  app.use(logger);
+  await app.listen(6666);
 }
 bootstrap();
