@@ -22,6 +22,6 @@ export class AuthController {
 
   @Get('getPublicKey')
   async getPublicKey(@Query('cacheKey') cacheKey: string) {
-    return this.authService.generatePublicKey(cacheKey);
+    return await this.authService.generatePublicKey(cacheKey);
   }
 }

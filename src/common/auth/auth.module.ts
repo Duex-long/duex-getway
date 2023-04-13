@@ -19,5 +19,6 @@ import { AuthService } from './auth.service';
     ...testMysqlEntityProvider,
     ...userMysqlEntityProvider,
   ],
+  exports: [AuthService],
 })
 export class AuthModule {}

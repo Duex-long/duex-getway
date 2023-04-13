@@ -25,7 +25,7 @@ export class AuthService {
         password: userInfo.password,
       },
     });
-    if (!findOne) return '用户名或密码错误';
+    if (!findOne) return Promise.resolve('用户名或密码错误');
     /**更新数据库 */
     this.userDB.update(
       { id: findOne.id },
