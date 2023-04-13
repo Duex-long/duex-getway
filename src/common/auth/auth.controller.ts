@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Query, UsePipes } from '@nestjs/common';
 import { User } from '../db/mysql/entity/user.mysql.entity';
 import { AuthService } from './auth.service';
 import { AuthInfoPipe } from './util/auth.pipe';
+import { UserInfoParams } from './authType';
 
 @Controller('auth')
 export class AuthController {
@@ -9,7 +10,7 @@ export class AuthController {
 
   @Post('login')
   @UsePipes(new AuthInfoPipe())
-  async login(@Body() userInfo: User) {
+  async login(@Body() userInfo: UserInfoParams) {
     return await this.authService.login(userInfo);
   }
 

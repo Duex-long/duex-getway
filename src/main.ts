@@ -16,7 +16,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new AllExceptionsFilter());
   // app.useGlobalInterceptors(new TransformIntercetp());
-  app.useGlobalGuards(new AuthGuard());
+  // app.useGlobalGuards(new AuthGuard());
   app.use(logger);
   app.enableCors();
   await app.listen(3285);

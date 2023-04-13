@@ -4,6 +4,7 @@ import { RedisClientType } from 'redis';
 import { Repository } from 'typeorm';
 import { User } from '../db/mysql/entity/user.mysql.entity';
 import * as Rsa from 'node-rsa';
+import { UserInfoParams } from './authType';
 
 @Injectable()
 export class AuthService {
@@ -15,9 +16,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   privateKeyMap = new Map<string, string>();
-
-  async login(userInfo: User) {
+  /** 登陆 */
+  async login(userInfo: UserInfoParams) {
     /**验证信息合法  pipe*/
+    userInfo.password = this.decrypt(userInfo.cacheKey, userInfo.password);
     /**是否存在 */
     const findOne = await this.userDB.findOne({
       where: {
@@ -48,6 +50,7 @@ export class AuthService {
       username: findOne.username,
     });
   }
+  /** 注册 */
   async register(userInfo: User) {
     await this.userDB.save({
       ...userInfo,
@@ -62,11 +65,12 @@ export class AuthService {
         this.redisClient.set(key, userId, {
           EX: 20 * 60,
         });
+        return true;
       }
+      throw new HttpException('登陆过期，请重新登录', HttpStatus.OK);
     } catch {
-      console.log('error');
+      throw new HttpException('服务出错', HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    // return Promise.resolve('every-success-request-refresh-token');
   }
   /**生成密钥 */
   generatePublicKey(cacheKey: string) {
