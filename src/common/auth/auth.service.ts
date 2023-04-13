@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RedisClientType } from 'redis';
 import { Repository } from 'typeorm';
 import { User } from '../db/mysql/entity/user.mysql.entity';
+import * as Rsa from 'node-rsa';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
     private redisClient: RedisClientType,
     private readonly jwtService: JwtService,
   ) {}
+  privateKeyMap = new Map<string, string>();
 
   async login(userInfo: User) {
     /**验证信息合法  pipe*/
@@ -65,5 +67,30 @@ export class AuthService {
       console.log('error');
     }
     // return Promise.resolve('every-success-request-refresh-token');
+  }
+  /**生成密钥 */
+  generatePublicKey(cacheKey: string) {
+    const newkey = new Rsa({ b: 1024 });
+    newkey.setOptions({ encryptionScheme: 'pkcs1' });
+    const public_key: string = newkey
+      .exportKey('public')
+      .replace('-----BEGIN PUBLIC KEY-----', '')
+      .replace('-----END PUBLIC KEY-----', '')
+      .replaceAll('\n', ''); //公钥
+    const private_key: string = newkey.exportKey('private'); //私钥
+    this.privateKeyMap.set(cacheKey, private_key);
+    return public_key;
+  }
+  /**解密 */
+  decrypt(cacheKey: string, cipher: string) {
+    const privateKey = this.privateKeyMap.get(cacheKey);
+    if (privateKey) {
+      throw new HttpException('publicKey,Error', HttpStatus.BAD_REQUEST);
+    }
+    const rsaKey = new Rsa(privateKey);
+    rsaKey.setOptions({ encryptionScheme: 'pkcs1' });
+    /** 作废 */
+    this.privateKeyMap.delete(cacheKey);
+    return rsaKey.decrypt(cipher, 'utf8');
   }
 }
