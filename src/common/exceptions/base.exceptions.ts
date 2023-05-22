@@ -11,7 +11,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   static getExceptionInfo(exception: unknown) {
-    console.log(exception instanceof Error, '内置错误');
+    console.log(exception instanceof Error, '程序错误');
 
     if (exception instanceof HttpException) {
       return {

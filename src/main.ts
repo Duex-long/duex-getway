@@ -15,7 +15,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalInterceptors(new TransformIntercetp());
-  // @ts-ignore
+  //@ts-ignore
   app.useGlobalGuards(new AuthGuard());
   await app.listen(3000);
 }

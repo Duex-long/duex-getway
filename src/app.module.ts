@@ -6,6 +6,8 @@ import { AuthModule } from './common/auth/auth.module';
 import { ExampleModule } from './example/example.module';
 import { testMicoProvider } from './microservicesProvider';
 import { ArticleModule } from './article/article.modules';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import TransformIntercetp from './common/intercept/transform.intercetp';
 
 @Module({
   imports: [
@@ -17,6 +19,12 @@ import { ArticleModule } from './article/article.modules';
     ArticleModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformIntercetp,
+    },
+  ],
 })
 export class AppModule {}

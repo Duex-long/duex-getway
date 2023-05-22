@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UsePipes } from '@nestjs/common';
 import { User } from '../db/mysql/entity/user.mysql.entity';
 import { AuthService } from './auth.service';
 import { AuthInfoPipe } from './util/auth.pipe';
@@ -18,5 +18,10 @@ export class AuthController {
   async register(@Body() userInfo: User) {
     await this.authService.register(userInfo);
     return 'success';
+  }
+
+  @Get('getPublicKey')
+  async getPublicKey(@Query('cacheKey') cacheKey: string) {
+    return await this.authService.generatePublicKey(cacheKey);
   }
 }
