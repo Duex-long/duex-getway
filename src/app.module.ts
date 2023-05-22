@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './common/auth/auth.module';
 import { ExampleModule } from './example/example.module';
 import { testMicoProvider } from './microservicesProvider';
+import { ArticleModule } from './article/article.modules';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { testMicoProvider } from './microservicesProvider';
     }),
     AuthModule,
     ExampleModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

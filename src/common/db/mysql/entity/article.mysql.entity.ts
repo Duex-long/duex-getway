@@ -21,7 +21,7 @@ export class Article {
   sort?: string;
 
   /**内容 */
-  @Column({ type: 'longtext', default: '' })
+  @Column({ type: 'longtext' })
   content: string;
 
   /**创建时间 */

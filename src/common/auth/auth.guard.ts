@@ -11,11 +11,12 @@ import { createClient } from 'redis';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private whiteList = ['auth', 'example'];
+  private whiteList = ['auth', 'example', 'article'];
 
-  canActivate(
+  // @ts-ignore
+  async canActivate(
     context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  ): Promise<boolean | Observable<boolean>> {
     const request = context.switchToHttp().getRequest<FastifyRequest>();
     const path = request.routerPath;
     const isAuthMethod = this.inCludeWhiteList(path, this.whiteList);
@@ -24,11 +25,10 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const token = request.headers.token;
-    const tokenAble = this.validateJWT(token);
+    const tokenAble = await this.validateJWT(token);
     if (!tokenAble) {
       throw new HttpException('Not Login', HttpStatus.OK);
     }
-    // if(this.whiteList.includes())
     return true;
   }
 
