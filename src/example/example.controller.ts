@@ -12,4 +12,8 @@ export class ExampleController {
     console.log(res);
     return res;
   }
+  @Get('check')
+  checkSocket() {
+    return 'success';
+  }
 }

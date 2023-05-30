@@ -6,15 +6,16 @@ import {
   PipeTransform,
 } from '@nestjs/common';
 import { User } from 'src/common/db/mysql/entity/user.mysql.entity';
+import { UserInfoParams } from '../authType';
 
 @Injectable()
 export class AuthInfoPipe implements PipeTransform {
   checkIsPhone = (phone: string | null | undefined) =>
     /^(1[3456789]\d{9})$/.test(phone || '');
 
-  transform(value: User, metadata: ArgumentMetadata) {
+  transform(value: UserInfoParams, metadata: ArgumentMetadata) {
     // throw new Error('Method not implemented.');
-    const { username, password, tel, email } = value;
+    const { username, password, tel, email, cacheKey } = value;
     if (!username || !password) {
       console.log('pipi Error');
       throw new HttpException('请确认用户信息完整', HttpStatus.BAD_REQUEST);
@@ -28,6 +29,7 @@ export class AuthInfoPipe implements PipeTransform {
       password,
       tel,
       email,
+      cacheKey,
     };
   }
 }

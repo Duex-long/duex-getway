@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const path = request.routerPath;
+    const path = request.routerPath || request.route.path;
     const isAuthMethod = this.inCludeWhiteList(path, this.whiteList);
     if (isAuthMethod) {
       console.log('白名单');

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { User } from '../db/mysql/entity/user.mysql.entity';
 import * as Rsa from 'node-rsa';
 import { UserInfoParams } from './authType';
+import * as md5 from 'js-md5';
 
 @Injectable()
 export class AuthService {
@@ -52,6 +53,7 @@ export class AuthService {
   }
   /** 注册 */
   async register(userInfo: User) {
+    userInfo.password = md5(userInfo.password);
     await this.userDB.save({
       ...userInfo,
     });
@@ -87,14 +89,21 @@ export class AuthService {
   }
   /**解密 */
   decrypt(cacheKey: string, cipher: string) {
-    const privateKey = this.privateKeyMap.get(cacheKey);
-    if (privateKey) {
-      throw new HttpException('publicKey,Error', HttpStatus.BAD_REQUEST);
+    if (!cacheKey || !cipher) {
+      throw new HttpException('登录登录信息有误', HttpStatus.BAD_REQUEST);
     }
-    const rsaKey = new Rsa(privateKey);
-    rsaKey.setOptions({ encryptionScheme: 'pkcs1' });
-    /** 作废 */
-    this.privateKeyMap.delete(cacheKey);
-    return rsaKey.decrypt(cipher, 'utf8');
+    try {
+      const privateKey = this.privateKeyMap.get(cacheKey);
+      if (!privateKey) {
+        throw new HttpException('登录错误，请重试', HttpStatus.BAD_REQUEST);
+      }
+      const rsaKey = new Rsa(privateKey);
+      rsaKey.setOptions({ encryptionScheme: 'pkcs1' });
+      return rsaKey.decrypt(cipher, 'utf8');
+    } finally {
+      /** 作废 */
+      console.log('作废');
+      this.privateKeyMap.delete(cacheKey);
+    }
   }
 }
