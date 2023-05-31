@@ -17,6 +17,7 @@ const initDb = async () => {
   };
   const DATABASE_INSTANCE = new DataSource(MYSQL_OPTIONS);
   await DATABASE_INSTANCE.initialize();
+  console.log('mysql连接');
   return DATABASE_INSTANCE;
 };
 

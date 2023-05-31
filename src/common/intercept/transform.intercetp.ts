@@ -14,10 +14,6 @@ interface Response<T> {
 @Injectable()
 class TransformIntercetp<T> implements NestInterceptor<T, Response<T>> {
   did = 0;
-<<<<<<< HEAD
-=======
-
->>>>>>> 98400c619caae18dfa9c2000721c9e767c30eebe
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,

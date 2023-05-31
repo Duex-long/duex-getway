@@ -16,16 +16,9 @@ async function bootstrap() {
     { cors: true },
   );
   app.useGlobalFilters(new AllExceptionsFilter());
-<<<<<<< HEAD
-  // app.useGlobalInterceptors(new TransformIntercetp());
-  // app.useGlobalGuards(new AuthGuard());
-  app.use(logger);
-  await app.listen(3218, '0.0.0.0');
-=======
   app.useGlobalInterceptors(new TransformIntercetp());
   //@ts-ignore
   app.useGlobalGuards(new AuthGuard());
-  await app.listen(3000);
->>>>>>> 98400c619caae18dfa9c2000721c9e767c30eebe
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
