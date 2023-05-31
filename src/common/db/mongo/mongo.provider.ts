@@ -7,7 +7,7 @@ const databaseType: DataSourceOptions['type'] = 'mongodb';
 const initDb = async () => {
   const MONGO_CONFIG: DataSourceOptions = {
     name: process.env.MONGO_DATABASE,
-    url: 'mongodb+srv://duex:Sql13525482154@cluster0.fe5xafm.mongodb.net/?retryWrites=true&w=majority',
+    url: process.env.MONGDO_URL,
     database: process.env.MONGO_TABLE,
     logging: false,
     synchronize: true,
