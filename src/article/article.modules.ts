@@ -5,7 +5,5 @@ import { ArticleController } from './article.controller';
   controllers: [ArticleController],
 })
 export class ArticleModule {
-  constructor() {
-    console.log('Article模块注入');
-  }
+  constructor() {}
 }

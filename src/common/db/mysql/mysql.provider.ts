@@ -1,4 +1,4 @@
-import { FactoryProvider, Injectable } from '@nestjs/common';
+import { FactoryProvider } from '@nestjs/common';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as Path from 'path';
 

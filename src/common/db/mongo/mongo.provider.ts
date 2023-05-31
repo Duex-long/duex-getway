@@ -1,6 +1,6 @@
+import { FactoryProvider } from '@nestjs/common';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as Path from 'path';
-import { FactoryProvider } from '@nestjs/common';
 
 const databaseType: DataSourceOptions['type'] = 'mongodb';
 
@@ -17,9 +17,14 @@ const initDb = async () => {
   };
 
   const dbSource = new DataSource(MONGO_CONFIG);
-  await dbSource.initialize();
-  console.log('mongo连接');
-  return dbSource;
+  try {
+    await dbSource.initialize();
+    console.log('mongo连接');
+    return dbSource;
+  } catch (e) {
+    console.error('mongo连接失败');
+    console.error(e);
+  }
 };
 
 export const MongoProviders: FactoryProvider<DataSource>[] = [

@@ -3,9 +3,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Test {
-  constructor() {
-    console.log('test表注入');
-  }
   @PrimaryGeneratedColumn()
   id?: number;
 
