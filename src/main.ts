@@ -19,6 +19,9 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformIntercetp());
   //@ts-ignore
   app.useGlobalGuards(new AuthGuard());
-  await app.listen(3000, '0.0.0.0');
+  // await app.listen(3280, '0.0.0.0');
+  await app.listen(3280, (_, address) => {
+    console.log(address);
+  });
 }
 bootstrap();

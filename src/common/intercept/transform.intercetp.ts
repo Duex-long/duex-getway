@@ -27,10 +27,7 @@ class TransformIntercetp<T> implements NestInterceptor<T, Response<T>> {
         from: ip,
         duration: ((new Date().getTime() - startTime) / 1000).toFixed(2) + 's',
         data,
-        status: 0,
         extra: {},
-        message: 'success',
-        success: true,
       })),
     );
   }

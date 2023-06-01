@@ -15,7 +15,7 @@ interface SaveLogInterface {
 }
 
 @Entity()
-export class Common implements SaveLogInterface {
+export class TestCommon implements SaveLogInterface {
   constructor() {
     console.log('Common表注入-mongo');
   }
