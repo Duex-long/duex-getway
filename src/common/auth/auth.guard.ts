@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
     const path = request.routerPath;
     const isAuthMethod = this.inCludeWhiteList(path, this.whiteList);
     if (isAuthMethod) {
-      console.log('白名单');
       return true;
     }
     const token = request.headers.token;

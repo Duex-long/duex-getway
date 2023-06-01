@@ -3,8 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
+  Query,
   UsePipes,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
@@ -16,8 +19,21 @@ export class ArticleController {
   constructor(private articleService: ArticleService) {}
   /**  查询内容 */
   @Get('getArticleList')
-  async getArticleList() {
-    return this.articleService.getArticleList();
+  @UsePipes({
+    transform(value) {
+      const result = Number(value);
+      if (isFinite(result)) {
+        return result;
+      } else {
+        throw new HttpException('参数错误', HttpStatus.BAD_REQUEST);
+      }
+    },
+  })
+  async getArticleList(
+    @Query('page') page: number,
+    @Query('total') total: number,
+  ) {
+    return this.articleService.getArticleList(page, total);
   }
   /**  增加内容 */
   @Post('addArticle')

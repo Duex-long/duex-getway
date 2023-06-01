@@ -24,10 +24,12 @@ class TransformIntercetp<T> implements NestInterceptor<T, Response<T>> {
     console.log(`来自${ip}请求-------> `, new Date().toISOString());
     return next.handle().pipe(
       map((data) => ({
+        data,
         from: ip,
         duration: ((new Date().getTime() - startTime) / 1000).toFixed(2) + 's',
-        data,
+        status: 0,
         extra: {},
+        message: 'success',
       })),
     );
   }

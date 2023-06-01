@@ -16,9 +16,17 @@ export class ArticleService {
     this.db = mgClient.db('ArticleList').collection('Article');
   }
   /**  查询内容 */
-  async getArticleList() {
+  async getArticleList(page: number, total: number) {
     try {
-      return await this.db.find({}).toArray();
+      const idx = (page - 1) * total;
+      const list = await this.db.find().toArray();
+      const result = list.slice(idx, total * page);
+      return {
+        result,
+        length: result.length,
+        total: list.length,
+        page,
+      };
     } catch {
       throw new HttpException('查询失败', HttpStatus.BAD_REQUEST);
     }
@@ -62,7 +70,6 @@ export class ArticleService {
       );
       return '更新成功';
     } catch (e) {
-      console.log(e);
       return '更新失败';
     }
   }
