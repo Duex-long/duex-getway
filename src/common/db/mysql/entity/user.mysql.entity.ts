@@ -39,7 +39,7 @@ export class User {
 
 export const userMysqlEntityProvider: FactoryProvider[] = [
   {
-    provide: 'MYSQL_TEST_PROVIDER',
+    provide: 'MYSQL_USER_PROVIDER',
     useFactory: async (AppDataSource) =>
       await AppDataSource.getRepository(User),
     inject: ['DB_MYSQL'],

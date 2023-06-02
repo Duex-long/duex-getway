@@ -9,6 +9,7 @@ import { ArticleModule } from './article/article.modules';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import TransformIntercetp from './common/intercept/transform.intercetp';
 import { AuthGuard } from './common/auth/auth.guard';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AuthGuard } from './common/auth/auth.guard';
     AuthModule,
     ExampleModule,
     ArticleModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

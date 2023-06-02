@@ -10,7 +10,7 @@ import * as md5 from 'js-md5';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject('MYSQL_TEST_PROVIDER')
+    @Inject('MYSQL_USER_PROVIDER')
     private userDB: Repository<User>,
     @Inject('REDIS_PROVIDER')
     private redisClient: RedisClientType,

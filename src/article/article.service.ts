@@ -74,7 +74,7 @@ export class ArticleService {
     }
   }
   /** 内容工厂 */
-  articleFactory(article: ArticleInterface) {
+  articleFactory(article: Omit<ArticleInterface, '_id'>) {
     const currentTime = new Date();
     const articleConfig: OptionalId<Document> = {
       createTime: currentTime,

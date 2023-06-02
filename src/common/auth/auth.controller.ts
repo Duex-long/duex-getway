@@ -8,19 +8,20 @@ import { UserInfoParams } from './authType';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  /** 登陆 */
   @Post('login')
   @UsePipes(new AuthInfoPipe())
   async login(@Body() userInfo: UserInfoParams) {
     return await this.authService.login(userInfo);
   }
-
+  /** 注册 */
   @Post('register')
   @UsePipes(new AuthInfoPipe())
   async register(@Body() userInfo: User) {
     await this.authService.register(userInfo);
     return 'success';
   }
-
+  /** 拿到公钥 */
   @Get('getPublicKey')
   async getPublicKey(@Query('cacheKey') cacheKey: string) {
     return await this.authService.generatePublicKey(cacheKey);

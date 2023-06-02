@@ -8,6 +8,4 @@ import { DbModule } from 'src/common/db/db.module';
   controllers: [ArticleController],
   providers: [ArticleService],
 })
-export class ArticleModule {
-  constructor() {}
-}
+export class ArticleModule {}
