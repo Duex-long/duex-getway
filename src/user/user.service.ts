@@ -27,8 +27,13 @@ export class UserService {
         ...userInfo,
       });
       return 'success';
-    } catch {
+    } catch (e) {
+      console.log(e);
       throw new HttpException('添加用户错误', HttpStatus.OK);
     }
+  }
+
+  async deleteUser(userInfo: User) {
+    // this.mysqlClient
   }
 }
