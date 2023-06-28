@@ -33,7 +33,21 @@ export class UserService {
     }
   }
 
-  async deleteUser(userInfo: User) {
+  async deleteUser(id: string) {
     // this.mysqlClient
+    const findOne = await this.mysqlClient.findOne({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!findOne) {
+      throw new HttpException('用户名或密码有误', HttpStatus.OK);
+    }
+    try {
+      await this.mysqlClient.delete(findOne);
+      return 'success';
+    } catch {
+      throw new HttpException('删除用户失败', HttpStatus.OK);
+    }
   }
 }

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UsePipes,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { transformtoNumber } from 'src/util/pipe';
 import { AuthInfoPipe } from 'src/common/auth/util/auth.pipe';
@@ -21,5 +30,13 @@ export class UserController {
   async register(@Body() userInfo: User) {
     await this.userService.addUser(userInfo);
     return 'success';
+  }
+
+  /**删除
+   *  有风险
+   */
+  @Delete('delete:id')
+  async deleteUser(@Param('id') id: string) {
+    return await this.userService.deleteUser(id);
   }
 }
