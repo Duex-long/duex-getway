@@ -1,0 +1,14 @@
+#  composeFIle
+services:
+  duex-getway:
+    # 镜像
+    image: duexs/getting-started:latest
+    # 指令
+    command: sh -c "yarn && yarn run start:dev"
+    # 端口映射
+    ports:
+      - 127.0.0.1:3000:3000
+    # 工作目录
+    working_dir: /app
+    # 持久化存储
+
